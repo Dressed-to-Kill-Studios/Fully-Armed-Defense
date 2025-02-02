@@ -266,6 +266,3 @@ func send_debug_messege(text : String):
 
 func player_grant_perk(perk_id : int):
 	pass
-
-
-

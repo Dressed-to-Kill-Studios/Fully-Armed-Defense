@@ -1,9 +1,9 @@
+CSGCombiner3D
 Label
 MarginContainer
 PanelContainer
 VBoxContainer
 CSGBox3D
-CSGCombiner3D
 GPUParticles3D
 Node
 Map
