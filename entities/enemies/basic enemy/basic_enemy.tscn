@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://ce5p148xnruub"]
 
-[ext_resource type="Script" path="res://entities/enemies/basic enemy/basic_enemy.gd" id="1_l4kll"]
+[ext_resource type="Script" uid="uid://cstqyyostfl37" path="res://entities/enemies/basic enemy/basic_enemy.gd" id="1_l4kll"]
 [ext_resource type="PackedScene" uid="uid://c2e6687xpne2" path="res://assets/blender/exported/entities/basic_enemy.glb" id="2_3bpi1"]
 [ext_resource type="Theme" uid="uid://dq860asyaj8gr" path="res://static/themes/hud_theme.tres" id="2_kuw77"]
 
@@ -27,6 +27,20 @@ label_time = 1.0
 
 [node name="Cube" parent="basic_enemy/Armature/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_qby1o")
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="basic_enemy/Armature/Skeleton3D" index="1"]
+target_node = NodePath("../../../../Marker3D")
+bone_name = "head"
+bone = 1
+duration = 0.25
+transition_type = 2
+ease_type = 1
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.91986
+primary_damp_threshold = 1.0
+secondary_limit_angle = 1.309
+secondary_damp_threshold = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -60,5 +74,8 @@ uppercase = true
 
 [node name="Timer" type="Timer" parent="Label"]
 one_shot = true
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.186211, 1.57303, 0.687401)
 
 [editable path="basic_enemy"]

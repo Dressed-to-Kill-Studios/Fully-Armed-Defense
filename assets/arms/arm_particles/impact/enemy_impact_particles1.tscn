@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=3 uid="uid://c6ovpwfhicihk"]
 
-[ext_resource type="Script" path="res://assets/arms/arm_particles/arm_particles.gd" id="1_lgpaw"]
+[ext_resource type="Script" uid="uid://3sasn5nr7ypg" path="res://assets/arms/arm_particles/arm_particles.gd" id="1_lgpaw"]
 [ext_resource type="Texture2D" uid="uid://tg25vt8cmg77" path="res://assets/images/particles/Flare01.png" id="2_cgmqi"]
 [ext_resource type="Texture2D" uid="uid://dq2lmkvsurri7" path="res://assets/images/particles/Flare00.PNG" id="3_wa58m"]
 
@@ -95,7 +95,7 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_rqoi3"]
-max_value = 10.0
+_limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 

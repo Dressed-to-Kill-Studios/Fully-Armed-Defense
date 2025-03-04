@@ -1,3 +1,5 @@
+Marker3D
+LookAtModifier3D
 CSGCombiner3D
 Label
 MarginContainer
@@ -10,5 +12,3 @@ Map
 CodeEdit
 RichTextLabel
 GPUParticlesCollisionHeightField3D
-MeshInstance3D
-GPUParticlesCollisionSDF3D

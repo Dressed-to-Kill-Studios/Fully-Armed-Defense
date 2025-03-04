@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BulletUpgradeData" load_steps=2 format=3 uid="uid://cbxm0l7ggpl1u"]
 
-[ext_resource type="Script" path="res://assets/interactables/workshop/workshop_upgrades/datas/bullet_upgrades_data.gd" id="1_s8d6f"]
+[ext_resource type="Script" uid="uid://b3dhawgcl4eg0" path="res://assets/interactables/workshop/workshop_upgrades/datas/bullet_upgrades_data.gd" id="1_s8d6f"]
 
 [resource]
 script = ExtResource("1_s8d6f")

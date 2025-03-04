@@ -1,6 +1,6 @@
 [gd_scene load_steps=35 format=3 uid="uid://1npkpeywkw07"]
 
-[ext_resource type="Script" path="res://assets/bullet/bullet.gd" id="1_8xsn5"]
+[ext_resource type="Script" uid="uid://b1ke3l66svew3" path="res://assets/bullet/bullet.gd" id="1_8xsn5"]
 [ext_resource type="PackedScene" uid="uid://c3opt4qrcld2n" path="res://assets/arms/arm_particles/impact/impact_particles1.tscn" id="2_0dxj2"]
 [ext_resource type="AudioStream" uid="uid://dobqyws28knwd" path="res://assets/audio/bullet/hit_audio/enemy_hit1.wav" id="2_2hrg4"]
 [ext_resource type="AudioStream" uid="uid://vt32502emrni" path="res://assets/audio/bullet/hit_audio/generic_hit1.wav" id="2_jbfaj"]
@@ -31,65 +31,42 @@
 random_pitch = 1.5
 streams_count = 9
 stream_0/stream = ExtResource("2_jbfaj")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("3_6jxsb")
-stream_1/weight = 1.0
 stream_2/stream = ExtResource("4_vy2a1")
-stream_2/weight = 1.0
 stream_3/stream = ExtResource("5_aol5j")
-stream_3/weight = 1.0
 stream_4/stream = ExtResource("6_ynf7q")
-stream_4/weight = 1.0
 stream_5/stream = ExtResource("7_52wsc")
-stream_5/weight = 1.0
 stream_6/stream = ExtResource("8_7w05g")
-stream_6/weight = 1.0
 stream_7/stream = ExtResource("9_0hby2")
-stream_7/weight = 1.0
 stream_8/stream = ExtResource("10_py3ql")
-stream_8/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fnkio"]
 random_pitch = 1.5
 streams_count = 9
 stream_0/stream = ExtResource("2_2hrg4")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("3_u1dcl")
-stream_1/weight = 1.0
 stream_2/stream = ExtResource("4_3w6b0")
-stream_2/weight = 1.0
 stream_3/stream = ExtResource("5_nmxdv")
-stream_3/weight = 1.0
 stream_4/stream = ExtResource("6_p4rk2")
-stream_4/weight = 1.0
 stream_5/stream = ExtResource("7_dely2")
-stream_5/weight = 1.0
 stream_6/stream = ExtResource("8_7jir5")
-stream_6/weight = 1.0
 stream_7/stream = ExtResource("9_2vyyd")
-stream_7/weight = 1.0
 stream_8/stream = ExtResource("10_nyjkk")
-stream_8/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vmnhs"]
 playback_mode = 1
 random_pitch = 1.5
 streams_count = 2
 stream_0/stream = ExtResource("2_s50bs")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("3_l4b4f")
-stream_1/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bmh7d"]
 playback_mode = 1
 random_pitch = 1.5
 streams_count = 3
 stream_0/stream = ExtResource("5_0tih4")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("6_7o1cl")
-stream_1/weight = 1.0
 stream_2/stream = ExtResource("7_m6i1x")
-stream_2/weight = 1.0
 
 [sub_resource type="Curve" id="Curve_7mgbk"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.598901, 0.032967), 0.0, 0.0, 0, 0, Vector2(0.884615, 0.0659341), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]

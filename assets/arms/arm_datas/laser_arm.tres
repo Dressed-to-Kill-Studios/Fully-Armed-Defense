@@ -1,15 +1,22 @@
 [gd_resource type="Resource" script_class="ArmData" load_steps=2 format=3 uid="uid://cou37mxwlr84m"]
 
-[ext_resource type="Script" path="res://assets/arms/arm_datas/arm_data.gd" id="1_sg703"]
+[ext_resource type="Script" uid="uid://dp0dv727uwlh4" path="res://assets/arms/arm_datas/arm_data.gd" id="1_sg703"]
 
 [resource]
 script = ExtResource("1_sg703")
 build_name = "Laser"
 description = ""
-is_semi = false
-is_laser = false
-bullet_damage = 0.0
-bullet_range = 100.0
-bullets_per_min = 500
-bullet_pierce = 0
+is_auto = false
+light_color = Color(1, 0.843137, 0, 1)
+light_energy = 0.25
+heat_per_shot = 50
+shots_per_min = 500
 recoil_type = "Laser Recoil"
+shooting_type = 0
+bullet_speed = 50.0
+bullet_damage = 0.0
+bullet_knockback = 0.0
+bullet_range = 100.0
+bullet_pierce = 0
+bullet_bounces = 0
+min_bounce_angle = 45.0

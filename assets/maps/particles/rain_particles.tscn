@@ -14,7 +14,7 @@ sub_emitter_mode = 3
 sub_emitter_amount_at_collision = 1
 
 [sub_resource type="Curve" id="Curve_3jj3s"]
-max_value = 0.25
+_limits = [0.0, 0.25, 0.0, 1.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.75, 0.25), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 

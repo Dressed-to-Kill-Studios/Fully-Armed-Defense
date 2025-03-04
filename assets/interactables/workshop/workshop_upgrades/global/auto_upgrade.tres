@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GlobalUpgradeData" load_steps=2 format=3 uid="uid://bwyrmuav1e2f5"]
 
-[ext_resource type="Script" path="res://assets/interactables/workshop/workshop_upgrades/datas/global_upgrades_data.gd" id="1_mtseg"]
+[ext_resource type="Script" uid="uid://c0vxhet7yaamh" path="res://assets/interactables/workshop/workshop_upgrades/datas/global_upgrades_data.gd" id="1_mtseg"]
 
 [resource]
 script = ExtResource("1_mtseg")
@@ -9,3 +9,4 @@ upgrade_name = "Automatic Upgrade"
 upgrade_description = ""
 upgrade_max = 1.0
 upgrade_increment = 1.0
+max_reached = false

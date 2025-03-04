@@ -1,14 +1,14 @@
 [gd_scene load_steps=19 format=3 uid="uid://b8ddi102xaunv"]
 
-[ext_resource type="Script" path="res://assets/interactables/workshop/workshop.gd" id="1_g7r3d"]
+[ext_resource type="Script" uid="uid://4wts1ec2grvn" path="res://assets/interactables/workshop/workshop.gd" id="1_g7r3d"]
 [ext_resource type="Resource" uid="uid://bwyrmuav1e2f5" path="res://assets/interactables/workshop/workshop_upgrades/global/auto_upgrade.tres" id="2_bnml4"]
-[ext_resource type="Script" path="res://assets/interactables/workshop/workshop_upgrades/datas/global_upgrades_data.gd" id="2_j3ba5"]
+[ext_resource type="Script" uid="uid://c0vxhet7yaamh" path="res://assets/interactables/workshop/workshop_upgrades/datas/global_upgrades_data.gd" id="2_j3ba5"]
 [ext_resource type="Theme" uid="uid://lw1w3xipifap" path="res://static/themes/workshop_theme.tres" id="2_khkfg"]
 [ext_resource type="Resource" uid="uid://cfcg4r8mhbfal" path="res://assets/interactables/workshop/workshop_upgrades/global/firerate_upgrade.tres" id="3_yb3ij"]
 [ext_resource type="Resource" uid="uid://dms2xqwyceelm" path="res://assets/interactables/workshop/workshop_upgrades/global/heat_upgrade.tres" id="4_htfru"]
 [ext_resource type="Resource" uid="uid://cbxm0l7ggpl1u" path="res://assets/interactables/workshop/workshop_upgrades/bullets/bounces.tres" id="5_xkb5p"]
 [ext_resource type="Resource" uid="uid://dxtwefuh5ws0l" path="res://assets/interactables/workshop/workshop_upgrades/bullets/bounce_angle.tres" id="6_4tgc8"]
-[ext_resource type="Script" path="res://assets/interactables/workshop/workshop_upgrades/datas/upgrades_data.gd" id="6_cm5ns"]
+[ext_resource type="Script" uid="uid://c7ket7j4w8pv" path="res://assets/interactables/workshop/workshop_upgrades/datas/upgrades_data.gd" id="6_cm5ns"]
 [ext_resource type="Resource" uid="uid://croyflljatyha" path="res://assets/interactables/workshop/workshop_upgrades/bullets/damage.tres" id="7_5vaji"]
 [ext_resource type="Resource" uid="uid://j1qscpufj4su" path="res://assets/interactables/workshop/workshop_upgrades/bullets/pierce.tres" id="8_myn45"]
 [ext_resource type="Resource" uid="uid://18glrq6p04a5" path="res://assets/interactables/workshop/workshop_upgrades/bullets/range.tres" id="9_hn1n4"]
@@ -17,7 +17,8 @@
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_meyxa"]
 data = PackedVector3Array(-1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, 0.5, -0.5, 1.5, -0.5, -0.5, 1.5, -0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, -0.5, 0.5, -1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, -1.5, -0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, -0.5, -0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmtmd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lbshg"]
+albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3mr1"]
 
@@ -46,7 +47,7 @@ shape = SubResource("ConcavePolygonShape3D_meyxa")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-material_override = SubResource("StandardMaterial3D_dmtmd")
+material_override = SubResource("StandardMaterial3D_lbshg")
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]

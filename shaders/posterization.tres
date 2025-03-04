@@ -34,7 +34,7 @@ code = "shader_type canvas_item;
 render_mode blend_mix;
 
 uniform sampler2D screen_tex_frg_8 : hint_screen_texture;
-uniform float steps : hint_range(0, 256, 1) = 8;
+uniform float steps : hint_range(0.0, 256.0, 1.0) = 8.0;
 
 
 

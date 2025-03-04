@@ -1,6 +1,6 @@
-[gd_scene load_steps=32 format=3 uid="uid://c3opt4qrcld2n"]
+[gd_scene load_steps=33 format=3 uid="uid://c3opt4qrcld2n"]
 
-[ext_resource type="Script" path="res://assets/arms/arm_particles/arm_particles.gd" id="1_2yytx"]
+[ext_resource type="Script" uid="uid://3sasn5nr7ypg" path="res://assets/arms/arm_particles/arm_particles.gd" id="1_2yytx"]
 [ext_resource type="Texture2D" uid="uid://tg25vt8cmg77" path="res://assets/images/particles/Flare01.png" id="2_16l3b"]
 [ext_resource type="Texture2D" uid="uid://dq2lmkvsurri7" path="res://assets/images/particles/Flare00.PNG" id="3_2mum5"]
 
@@ -28,21 +28,123 @@ scale_min = 0.5
 scale_curve = SubResource("CurveTexture_kws1m")
 alpha_curve = SubResource("CurveTexture_0kvr8")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_emdkx"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_color = Color(3, 3, 3, 1)
-albedo_texture = ExtResource("2_16l3b")
-billboard_mode = 3
-billboard_keep_scale = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
+[sub_resource type="Shader" id="Shader_tqv3w"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx, unshaded;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform int particles_anim_h_frames : hint_range(1, 128);
+uniform int particles_anim_v_frames : hint_range(1, 128);
+uniform bool particles_anim_loop;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform float cam_offset = 0.0;
+const float CAM_DIST_LIMIT = 0.1;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+
+	// Billboard Mode: Particles
+	mat4 mat_world = mat4(
+			normalize(INV_VIEW_MATRIX[0]),
+			normalize(INV_VIEW_MATRIX[1]),
+			normalize(INV_VIEW_MATRIX[2]),
+			MODEL_MATRIX[3]);
+	mat_world = mat_world * mat4(
+			vec4(cos(INSTANCE_CUSTOM.x), -sin(INSTANCE_CUSTOM.x), 0.0, 0.0),
+			vec4(sin(INSTANCE_CUSTOM.x), cos(INSTANCE_CUSTOM.x), 0.0, 0.0),
+			vec4(0.0, 0.0, 1.0, 0.0),
+			vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat_world;
+
+	// Billboard Keep Scale: Enabled
+	MODELVIEW_MATRIX = MODELVIEW_MATRIX * mat4(
+			vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0),
+			vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0),
+			vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0),
+			vec4(0.0, 0.0, 0.0, 1.0));
+
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+
+	float h_frames = float(particles_anim_h_frames);
+	float v_frames = float(particles_anim_v_frames);
+	float particle_total_frames = float(particles_anim_h_frames * particles_anim_v_frames);
+	float particle_frame = floor(INSTANCE_CUSTOM.z * float(particle_total_frames));
+	if (!particles_anim_loop) {
+		particle_frame = clamp(particle_frame, 0.0, particle_total_frames - 1.0);
+	} else {
+		particle_frame = mod(particle_frame, particle_total_frames);
+	}
+	UV /= vec2(h_frames, v_frames);
+	UV += vec2(mod(particle_frame, h_frames) / h_frames, floor((particle_frame + 0.5) / h_frames) / v_frames);
+
+	//
+	vec3 cam_dir = normalize(CAMERA_DIRECTION_WORLD);
+	float cam_dir_dist = length(CAMERA_POSITION_WORLD - (vec4(VERTEX, 1.0) * MODEL_MATRIX).xyz);
+
+	VERTEX += cam_offset * cam_dir;
+	//VERTEX += min(cam_offset, cam_dir_dist - CAM_DIST_LIMIT) * cam_dir;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+
+	// Vertex Color Use as Albedo: Enabled
+	albedo_tex *= COLOR;
+
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	ALPHA *= albedo.a * albedo_tex.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mixx"]
+render_priority = 0
+shader = SubResource("Shader_tqv3w")
+shader_parameter/albedo = Color(3, 3, 3, 1)
+shader_parameter/texture_albedo = ExtResource("2_16l3b")
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/particles_anim_h_frames = 1
+shader_parameter/particles_anim_v_frames = 1
+shader_parameter/particles_anim_loop = false
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/cam_offset = 0.25
 
 [sub_resource type="QuadMesh" id="QuadMesh_5ih7i"]
-material = SubResource("StandardMaterial3D_emdkx")
+material = SubResource("ShaderMaterial_4mixx")
 
 [sub_resource type="Curve" id="Curve_7iepw"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -94,7 +196,7 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_rqoi3"]
-max_value = 10.0
+_limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -162,13 +264,13 @@ script = ExtResource("1_2yytx")
 dont_color = [NodePath("Flare"), NodePath("Debris"), NodePath("Sparks"), NodePath("SmallSparks")]
 
 [node name="Flare" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125)
 cast_shadow = 0
 emitting = false
 amount = 1
 lifetime = 0.15
 one_shot = true
 explosiveness = 1.0
+transform_align = 1
 process_material = SubResource("ParticleProcessMaterial_nl4av")
 draw_pass_1 = SubResource("QuadMesh_5ih7i")
 

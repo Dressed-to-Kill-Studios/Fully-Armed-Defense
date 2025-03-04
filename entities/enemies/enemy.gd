@@ -51,6 +51,14 @@ func _ready():
 func _process(delta):
 	handle_hit_label(delta)
 	
+	$Marker3D.global_position = get_viewport().get_camera_3d().global_position
+	
+	$basic_enemy/Armature/Skeleton3D/LookAtModifier3D.active = true if \
+	global_position.distance_to(get_viewport().get_camera_3d().global_position) < 5 \
+	else false
+	
+	
+	printt($basic_enemy/Armature/Skeleton3D/LookAtModifier3D.influence, )
 
 
 func _physics_process(delta):

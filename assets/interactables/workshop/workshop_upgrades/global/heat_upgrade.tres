@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="GlobalUpgradeData" load_steps=2 format=3 uid="uid://dms2xqwyceelm"]
 
-[ext_resource type="Script" path="res://assets/interactables/workshop/workshop_upgrades/datas/global_upgrades_data.gd" id="1_wokcb"]
+[ext_resource type="Script" uid="uid://c0vxhet7yaamh" path="res://assets/interactables/workshop/workshop_upgrades/datas/global_upgrades_data.gd" id="1_wokcb"]
 
 [resource]
 script = ExtResource("1_wokcb")
-stat_upgrading = "Heat"
+stat_upgrading = 0
 upgrade_name = "Cooling Upgrade"
 upgrade_description = ""
 upgrade_max = 25.0
 upgrade_increment = 1.0
+max_reached = false
