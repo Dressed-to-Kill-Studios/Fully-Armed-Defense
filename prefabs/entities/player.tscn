@@ -1,13 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://cb8kits00qan1"]
+[gd_scene load_steps=6 format=3 uid="uid://cb8kits00qan1"]
 
-[ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player.gd" id="1_0on4b"]
+[ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player/player.gd" id="1_0on4b"]
+[ext_resource type="Script" uid="uid://dcrpjhd8rbjup" path="res://scripts/entities/player/player_movement.gd" id="2_n42l2"]
+[ext_resource type="Script" uid="uid://cd0ugc3pogiv5" path="res://scripts/entities/player/player_camera_controller.gd" id="3_ebhuq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_c26da"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0on4b"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("movement", "camera") groups=["Player"]]
 script = ExtResource("1_0on4b")
+movement = NodePath("PlayerMovement")
+camera = NodePath("PlayerCameraController")
+
+[node name="PlayerMovement" type="Node" parent="."]
+script = ExtResource("2_n42l2")
+
+[node name="PlayerCameraController" type="Node" parent="."]
+script = ExtResource("3_ebhuq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
