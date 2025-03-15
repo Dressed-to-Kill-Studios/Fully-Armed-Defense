@@ -1,8 +1,8 @@
-extends CharacterBody3D
+extends Entity
 class_name Player
 
-@export var movement: PlayerMovement
-@export var camera: PlayerCamera
+@export var movement: PlayerMovementComponent
+@export var camera: PlayerCameraComponent
 
 var inputs_enabled: bool = false : set = _set_inputs_enabled
 

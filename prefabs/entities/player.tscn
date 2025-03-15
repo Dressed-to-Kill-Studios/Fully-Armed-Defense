@@ -1,17 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb8kits00qan1"]
+[gd_scene load_steps=9 format=3 uid="uid://cb8kits00qan1"]
 
 [ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player/player.gd" id="1_0on4b"]
 [ext_resource type="Script" uid="uid://dcrpjhd8rbjup" path="res://scripts/entities/player/player_movement.gd" id="2_n42l2"]
 [ext_resource type="Script" uid="uid://cd0ugc3pogiv5" path="res://scripts/entities/player/player_camera_controller.gd" id="3_ebhuq"]
+[ext_resource type="PackedScene" uid="uid://ct4hfd5mip4qo" path="res://assets/blender_exports/arm.glb" id="4_grlhh"]
+[ext_resource type="Script" uid="uid://bljvroojlvar3" path="res://scripts/entities/player/player_shooting.gd" id="4_j0cl5"]
+[ext_resource type="Script" uid="uid://b2rvurkpa5mgv" path="res://scripts/components/health_component.gd" id="5_qpvj0"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_c26da"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0on4b"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("movement", "camera") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("movement", "camera", "health") groups=["Player"]]
 script = ExtResource("1_0on4b")
 movement = NodePath("PlayerMovement")
 camera = NodePath("PlayerCameraController")
+health = NodePath("HealthComponent")
 
 [node name="PlayerMovement" type="Node" parent="."]
 script = ExtResource("2_n42l2")
@@ -19,8 +23,16 @@ script = ExtResource("2_n42l2")
 [node name="PlayerCameraController" type="Node" parent="."]
 script = ExtResource("3_ebhuq")
 
+[node name="PlayerShooting" type="Node" parent="."]
+script = ExtResource("4_j0cl5")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("5_qpvj0")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+cast_shadow = 0
 mesh = SubResource("CapsuleMesh_c26da")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -30,6 +42,20 @@ shape = SubResource("CapsuleShape3D_0on4b")
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+
+[node name="arm" parent="Head" instance=ExtResource("4_grlhh")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Head/arm/ArmsRig" index="0"]
+bones/1/rotation = Quaternion(0.864772, 0.31207, 0.359965, -0.158769)
+bones/6/rotation = Quaternion(0.864772, -0.31207, -0.359965, -0.158769)
+bones/7/rotation = Quaternion(-0.218951, 0.0206342, 0.146566, 0.964444)
+bones/8/rotation = Quaternion(-0.0503, 0.27915, -0.108886, 0.952727)
+bones/10/position = Vector3(-0.710628, -0.611012, 0.194848)
+bones/10/rotation = Quaternion(0.942265, -0.197299, -0.197299, 0.185158)
+
+[node name="AnimationPlayer" parent="Head/arm" index="1"]
+autoplay = "TEST_POSE"
 
 [node name="CameraControl" type="Control" parent="Head"]
 layout_mode = 3
@@ -99,3 +125,39 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 cull_mask = 1048573
 fov = 100.0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Crosshair" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Line2D" type="Line2D" parent="HUD/Crosshair"]
+points = PackedVector2Array(-10, 0, -25, 0)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D2" type="Line2D" parent="HUD/Crosshair"]
+points = PackedVector2Array(10, 0, 25, 0)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D3" type="Line2D" parent="HUD/Crosshair"]
+points = PackedVector2Array(0, -10, 0, -25)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D4" type="Line2D" parent="HUD/Crosshair"]
+points = PackedVector2Array(0, 10, 0, 25)
+width = 5.0
+begin_cap_mode = 1
+
+[connection signal="health_depleted" from="HealthComponent" to="." method="kill"]
+
+[editable path="Head/arm"]

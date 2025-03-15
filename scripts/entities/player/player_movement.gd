@@ -1,5 +1,5 @@
 extends Node
-class_name PlayerMovement
+class_name PlayerMovementComponent 
 
 const GRAVITY = 10.0
 

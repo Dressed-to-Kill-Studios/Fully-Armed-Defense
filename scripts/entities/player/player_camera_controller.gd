@@ -1,5 +1,5 @@
 extends Node
-class_name PlayerCamera
+class_name PlayerCameraComponent 
 
 @export var can_look: bool = true
 
@@ -8,6 +8,7 @@ var mouse_sensitivity: float = 0.003
 @onready var head: Node3D = %Head
 @onready var secondary_camera: Camera3D = %SecondaryCamera
 @onready var primary_camera: Camera3D = %PrimaryCamera
+
 
 #HACK: THIS IS A PLACE HOLDER CAMERA CONTROL SYSTEM, SMOOTHER VERSION NEEDS TO IMPLEMENTED
 func _unhandled_input(event: InputEvent) -> void:
