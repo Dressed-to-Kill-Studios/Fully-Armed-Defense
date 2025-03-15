@@ -13,6 +13,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("escape"):
 		inputs_enabled = !inputs_enabled
+	
 
 
 func _process(delta: float) -> void:

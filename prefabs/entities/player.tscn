@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cb8kits00qan1"]
+[gd_scene load_steps=11 format=3 uid="uid://cb8kits00qan1"]
 
 [ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player/player.gd" id="1_0on4b"]
 [ext_resource type="Script" uid="uid://dcrpjhd8rbjup" path="res://scripts/entities/player/player_movement.gd" id="2_n42l2"]
@@ -6,10 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://ct4hfd5mip4qo" path="res://assets/blender_exports/arm.glb" id="4_grlhh"]
 [ext_resource type="Script" uid="uid://bljvroojlvar3" path="res://scripts/entities/player/player_shooting.gd" id="4_j0cl5"]
 [ext_resource type="Script" uid="uid://b2rvurkpa5mgv" path="res://scripts/components/health_component.gd" id="5_qpvj0"]
+[ext_resource type="Script" uid="uid://e4jy7to2rje3" path="res://scripts/hud.gd" id="7_2tsmg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_c26da"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0on4b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qpvj0"]
+font_size = 30
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("movement", "camera", "health") groups=["Player"]]
 script = ExtResource("1_0on4b")
@@ -127,6 +133,7 @@ cull_mask = 1048573
 fov = 100.0
 
 [node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("7_2tsmg")
 
 [node name="Crosshair" type="Control" parent="HUD"]
 layout_mode = 3
@@ -158,6 +165,60 @@ points = PackedVector2Array(0, 10, 0, 25)
 width = 5.0
 begin_cap_mode = 1
 
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -540.0
+offset_right = 720.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer"]
+layout_mode = 2
+
+[node name="LeftContainer" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+
+[node name="Sperator" type="ColorRect" parent="HUD/MarginContainer/HBoxContainer/LeftContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)
+
+[node name="HealthLabel" type="Label" parent="HUD/MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "HEALTH:"
+label_settings = SubResource("LabelSettings_qpvj0")
+vertical_alignment = 2
+uppercase = true
+
+[node name="CenterContainer" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="RightContainer" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+
+[node name="Sperator" type="ColorRect" parent="HUD/MarginContainer/HBoxContainer/RightContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)
+
+[connection signal="health_changed" from="HealthComponent" to="HUD" method="update_health_label"]
 [connection signal="health_depleted" from="HealthComponent" to="." method="kill"]
 
 [editable path="Head/arm"]
