@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://brebj0ntkodrh"]
+
+[ext_resource type="Script" uid="uid://dlquftslj7uf4" path="res://scripts/bullet.gd" id="1_dbnhy"]
+
+[sub_resource type="Curve" id="Curve_l3hlo"]
+_limits = [0.0, 0.25, 0.0, 0.5]
+_data = [Vector2(0, 0), 0.0, 0.842697, 0, 1, Vector2(0.0833333, 0.0702247), 0.842697, -0.218335, 1, 0, Vector2(0.5, 0), 0.00712138, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_dbnhy"]
+cap_top = false
+cap_bottom = false
+curve = SubResource("Curve_l3hlo")
+
+[node name="TestBullet" type="Node3D"]
+script = ExtResource("1_dbnhy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TubeTrailMesh_dbnhy")

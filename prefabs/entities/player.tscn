@@ -1,12 +1,22 @@
-[gd_scene load_steps=11 format=3 uid="uid://cb8kits00qan1"]
+[gd_scene load_steps=14 format=3 uid="uid://cb8kits00qan1"]
 
 [ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player/player.gd" id="1_0on4b"]
 [ext_resource type="Script" uid="uid://dcrpjhd8rbjup" path="res://scripts/entities/player/player_movement.gd" id="2_n42l2"]
 [ext_resource type="Script" uid="uid://cd0ugc3pogiv5" path="res://scripts/entities/player/player_camera_controller.gd" id="3_ebhuq"]
 [ext_resource type="PackedScene" uid="uid://ct4hfd5mip4qo" path="res://assets/blender_exports/arm.glb" id="4_grlhh"]
 [ext_resource type="Script" uid="uid://bljvroojlvar3" path="res://scripts/entities/player/player_shooting.gd" id="4_j0cl5"]
+[ext_resource type="Script" uid="uid://b588p414ss0kn" path="res://scripts/resources/firing_data.gd" id="5_ohfey"]
 [ext_resource type="Script" uid="uid://b2rvurkpa5mgv" path="res://scripts/components/health_component.gd" id="5_qpvj0"]
-[ext_resource type="Script" uid="uid://e4jy7to2rje3" path="res://scripts/hud.gd" id="7_2tsmg"]
+[ext_resource type="PackedScene" uid="uid://brebj0ntkodrh" path="res://prefabs/bullets/test_bullet.tscn" id="5_ss567"]
+[ext_resource type="Script" uid="uid://e4jy7to2rje3" path="res://scripts/UI/hud.gd" id="7_2tsmg"]
+
+[sub_resource type="Resource" id="Resource_ss567"]
+script = ExtResource("5_ohfey")
+firing_mode = 1
+burst_amount = 3
+bullets_per_min = 300
+bullet_scene = ExtResource("5_ss567")
+metadata/_custom_type_script = "uid://b588p414ss0kn"
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_c26da"]
 
@@ -17,22 +27,33 @@ font_size = 30
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("movement", "camera", "health") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "movement", "shooting", "health") groups=["Player"]]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_0on4b")
-movement = NodePath("PlayerMovement")
 camera = NodePath("PlayerCameraController")
+movement = NodePath("PlayerMovement")
+shooting = NodePath("PlayerShooting")
 health = NodePath("HealthComponent")
-
-[node name="PlayerMovement" type="Node" parent="."]
-script = ExtResource("2_n42l2")
 
 [node name="PlayerCameraController" type="Node" parent="."]
 script = ExtResource("3_ebhuq")
 
-[node name="PlayerShooting" type="Node" parent="."]
+[node name="PlayerMovement" type="Node" parent="."]
+script = ExtResource("2_n42l2")
+
+[node name="PlayerShooting" type="Node" parent="." node_paths=PackedStringArray("firing_point", "view_cast", "fire_cast", "clearance_origin")]
+unique_name_in_owner = true
 script = ExtResource("4_j0cl5")
+firing_data = SubResource("Resource_ss567")
+firing_point = NodePath("../Head/FirePoint")
+view_cast = NodePath("../Head/ViewCast")
+fire_cast = NodePath("../Head/FireCast")
+clearance_origin = NodePath("../Head")
+view_hit_point_threshold = 1.5
 
 [node name="HealthComponent" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("5_qpvj0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -49,16 +70,40 @@ shape = SubResource("CapsuleShape3D_0on4b")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 
+[node name="BackupCam" type="Camera3D" parent="Head"]
+unique_name_in_owner = true
+cull_mask = 1048573
+current = true
+fov = 100.0
+
+[node name="ViewCast" type="RayCast3D" parent="Head"]
+target_position = Vector3(0, 0, -100)
+collision_mask = 5
+
+[node name="FireCast" type="RayCast3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.61339, -0.111551, -0.723311)
+target_position = Vector3(0, 0, -100)
+collision_mask = 5
+
+[node name="FirePoint" type="Marker3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.61339, -0.111551, -0.723311)
+
 [node name="arm" parent="Head" instance=ExtResource("4_grlhh")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Head/arm/ArmsRig" index="0"]
 bones/1/rotation = Quaternion(0.864772, 0.31207, 0.359965, -0.158769)
-bones/6/rotation = Quaternion(0.864772, -0.31207, -0.359965, -0.158769)
-bones/7/rotation = Quaternion(-0.218951, 0.0206342, 0.146566, 0.964444)
-bones/8/rotation = Quaternion(-0.0503, 0.27915, -0.108886, 0.952727)
-bones/10/position = Vector3(-0.710628, -0.611012, 0.194848)
-bones/10/rotation = Quaternion(0.942265, -0.197299, -0.197299, 0.185158)
+bones/6/rotation = Quaternion(0.754475, -0.509181, -0.405999, 0.0816464)
+bones/7/rotation = Quaternion(-0.288808, 0.0200567, 0.193329, 0.93745)
+bones/8/rotation = Quaternion(0.0812773, -0.0882449, 0.657386, 0.743942)
+bones/9/position = Vector3(-0.606947, -0.322975, -0.236086)
+bones/10/position = Vector3(-0.593683, -0.258712, 0.637273)
+bones/10/rotation = Quaternion(0.0972455, -0.839451, -0.129053, 0.518855)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Head/arm/ArmsRig/Skeleton3D" index="1"]
+transform = Transform3D(-0.442667, -0.0293466, -0.896206, -0.297185, 0.947777, 0.115754, 0.846007, 0.317579, -0.428271, -0.593683, -0.258712, 0.637273)
+bone_name = "Hand_R"
+bone_idx = 8
 
 [node name="AnimationPlayer" parent="Head/arm" index="1"]
 autoplay = "TEST_POSE"
@@ -134,8 +179,10 @@ fov = 100.0
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("7_2tsmg")
+crosshair_position_threshold = 200.0
 
-[node name="Crosshair" type="Control" parent="HUD"]
+[node name="Crosshairs" type="Control" parent="HUD"]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -145,22 +192,74 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Line2D" type="Line2D" parent="HUD/Crosshair"]
+[node name="StaticCrosshair" type="Node2D" parent="HUD/Crosshairs"]
+unique_name_in_owner = true
+
+[node name="Line2D" type="Line2D" parent="HUD/Crosshairs/StaticCrosshair"]
 points = PackedVector2Array(-10, 0, -25, 0)
 width = 5.0
 begin_cap_mode = 1
 
-[node name="Line2D2" type="Line2D" parent="HUD/Crosshair"]
+[node name="Line2D2" type="Line2D" parent="HUD/Crosshairs/StaticCrosshair"]
 points = PackedVector2Array(10, 0, 25, 0)
 width = 5.0
 begin_cap_mode = 1
 
-[node name="Line2D3" type="Line2D" parent="HUD/Crosshair"]
+[node name="Line2D3" type="Line2D" parent="HUD/Crosshairs/StaticCrosshair"]
 points = PackedVector2Array(0, -10, 0, -25)
 width = 5.0
 begin_cap_mode = 1
 
-[node name="Line2D4" type="Line2D" parent="HUD/Crosshair"]
+[node name="Line2D4" type="Line2D" parent="HUD/Crosshairs/StaticCrosshair"]
+points = PackedVector2Array(0, 10, 0, 25)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="RealCrosshair" type="Node2D" parent="HUD/Crosshairs"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.5)
+
+[node name="Line2D" type="Line2D" parent="HUD/Crosshairs/RealCrosshair"]
+points = PackedVector2Array(-10, 0, -25, 0)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D2" type="Line2D" parent="HUD/Crosshairs/RealCrosshair"]
+points = PackedVector2Array(10, 0, 25, 0)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D3" type="Line2D" parent="HUD/Crosshairs/RealCrosshair"]
+points = PackedVector2Array(0, -10, 0, -25)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D4" type="Line2D" parent="HUD/Crosshairs/RealCrosshair"]
+points = PackedVector2Array(0, 10, 0, 25)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="CannotShootCrosshair" type="Node2D" parent="HUD/Crosshairs"]
+unique_name_in_owner = true
+modulate = Color(1, 0.25, 0.25, 1)
+rotation = 0.785398
+
+[node name="Line2D" type="Line2D" parent="HUD/Crosshairs/CannotShootCrosshair"]
+points = PackedVector2Array(-10, 0, -25, 0)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D2" type="Line2D" parent="HUD/Crosshairs/CannotShootCrosshair"]
+points = PackedVector2Array(10, 0, 25, 0)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D3" type="Line2D" parent="HUD/Crosshairs/CannotShootCrosshair"]
+points = PackedVector2Array(0, -10, 0, -25)
+width = 5.0
+begin_cap_mode = 1
+
+[node name="Line2D4" type="Line2D" parent="HUD/Crosshairs/CannotShootCrosshair"]
 points = PackedVector2Array(0, 10, 0, 25)
 width = 5.0
 begin_cap_mode = 1
@@ -218,7 +317,6 @@ layout_mode = 2
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0)
 
-[connection signal="health_changed" from="HealthComponent" to="HUD" method="update_health_label"]
 [connection signal="health_depleted" from="HealthComponent" to="." method="kill"]
 
 [editable path="Head/arm"]
