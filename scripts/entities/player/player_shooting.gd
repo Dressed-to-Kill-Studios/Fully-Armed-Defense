@@ -64,6 +64,9 @@ func _fire_bullet() -> void:
 	var bullet_instance: Bullet = firing_data.bullet_scene.instantiate()
 	
 	#NOTE:Additional bullet logic is going to go here later
+	bullet_instance.damage_registry = firing_data.bullet_damage_registry
+	bullet_instance.speed = firing_data.bullet_speed
+	bullet_instance.pierces_left = firing_data.bullet_pierces
 	
 	firing_point.add_child(bullet_instance)
 	bullet_instance.top_level = true

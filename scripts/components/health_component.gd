@@ -21,3 +21,7 @@ func damage(damage_registry: DamageRegistry) -> void:
 	health_changed.emit(current_health, max_health)
 	
 	if current_health == 0: health_depleted.emit()
+
+
+func is_dead() -> bool:
+	return true if current_health <= 0 else false
