@@ -13,6 +13,7 @@ var prev_pos: Vector3 = Vector3()
 
 var hit_something : bool = false
 
+var min_ricochet_angle: float = 45.0
 var ricochets_left: int = 0
 var pierces_left: int = 0
 
@@ -26,10 +27,10 @@ func _ready() -> void:
 	
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	var new_pos: Vector3 = global_transform.origin - (fly_direction * speed * delta)
 	
-	var ray_query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(prev_pos, new_pos)
+	var ray_query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(prev_pos, new_pos, collide_with)
 	var result: Dictionary = get_world_3d().direct_space_state.intersect_ray(ray_query)
 	
 	#NOTE: Bullet detected a hit
@@ -45,8 +46,7 @@ func _physics_process(delta: float) -> void:
 			_handle_entity_hit(collider)
 		#Something else was hit
 		else:
-			new_pos = collision_point
-			destroy()
+			_handle_static_hit(result)
 		
 		
 	
@@ -67,8 +67,19 @@ func _handle_entity_hit(hit_entity: Entity) -> void:
 	if hit_entity.health.is_dead(): return
 	
 	if damage_registry: hit_entity.damage(damage_registry)
-	printt("hit enemy", damage_registry)
+	printt("hit entity", damage_registry)
 	
 	#Piercing
 	if pierces_left <= 0: destroy()
 	pierces_left -= 1
+
+
+func _handle_static_hit(collision_data: Dictionary) -> void:
+	if ricochets_left <= 0: destroy()
+	if distance_travelled < 0.75: destroy()
+	if fly_direction.angle_to(collision_data.normal) < deg_to_rad(min_ricochet_angle): destroy()
+	
+	disable_flyby_detect = false
+	fly_direction = fly_direction.bounce(collision_data.normal)
+	ricochets_left -= 1
+	look_at(global_transform.origin - fly_direction)

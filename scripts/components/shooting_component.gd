@@ -66,6 +66,8 @@ func _fire_bullet() -> void:
 	#NOTE:Additional bullet logic is going to go here later
 	bullet_instance.damage_registry = firing_data.bullet_damage_registry
 	bullet_instance.speed = firing_data.bullet_speed
+	bullet_instance.min_ricochet_angle = firing_data.bullet_min_ricochet_angle
+	bullet_instance.ricochets_left = firing_data.bullet_ricochets
 	bullet_instance.pierces_left = firing_data.bullet_pierces
 	
 	firing_point.add_child(bullet_instance)
