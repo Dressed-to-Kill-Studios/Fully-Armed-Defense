@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dyqlr754f3pvp"]
 
 [ext_resource type="Script" uid="uid://bhg8u3tvd6hj1" path="res://scripts/entities/enemy/enemy.gd" id="1_3h7ek"]
-[ext_resource type="Script" uid="uid://b2rvurkpa5mgv" path="res://scripts/components/health_component.gd" id="2_ind1p"]
+[ext_resource type="Script" uid="uid://b2rvurkpa5mgv" path="res://scripts/components/entity_components/health_component.gd" id="2_ind1p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4ixi"]
 albedo_color = Color(1, 0.25, 0.25, 1)

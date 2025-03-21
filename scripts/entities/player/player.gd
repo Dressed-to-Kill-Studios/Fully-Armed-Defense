@@ -4,6 +4,7 @@ class_name Player
 @export var camera: PlayerCameraComponent
 @export var movement: PlayerMovementComponent
 @export var shooting: ShootingComponent
+@export var hud: HUD #HACK
 
 var inputs_enabled: bool = false : set = _set_inputs_enabled
 

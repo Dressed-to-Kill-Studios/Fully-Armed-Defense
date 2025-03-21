@@ -1,7 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://cibgpiehubtuh"]
+[gd_scene load_steps=20 format=3 uid="uid://cibgpiehubtuh"]
 
 [ext_resource type="Texture2D" uid="uid://bs31ahy3sxife" path="res://addons/kenney_prototype_textures/dark/texture_02.png" id="1_amxg5"]
+[ext_resource type="Script" uid="uid://dnglf5erohqsm" path="res://scenes/level.gd" id="1_ynswa"]
 [ext_resource type="Texture2D" uid="uid://3e5j1bgtf4ge" path="res://addons/kenney_prototype_textures/orange/texture_01.png" id="2_3263u"]
+[ext_resource type="Script" uid="uid://fum52rj1t805" path="res://scripts/components/level_components/wave_component.gd" id="2_dvny0"]
 [ext_resource type="PackedScene" uid="uid://cb8kits00qan1" path="res://prefabs/entities/player.tscn" id="3_3263u"]
 [ext_resource type="PackedScene" uid="uid://dyqlr754f3pvp" path="res://prefabs/entities/enemies/test_enemy.tscn" id="4_umbte"]
 
@@ -51,7 +53,13 @@ albedo_color = Color(0.501961, 0.501961, 1, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_ixgyf"]
 material = SubResource("StandardMaterial3D_ar7ra")
 
-[node name="TestWorld" type="Node3D"]
+[node name="TestWorld" type="Node3D" node_paths=PackedStringArray("wave_component")]
+script = ExtResource("1_ynswa")
+wave_component = NodePath("WaveManager")
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("2_dvny0")
+metadata/_custom_type_script = "uid://fum52rj1t805"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ynswa")

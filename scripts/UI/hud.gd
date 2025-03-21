@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name HUD
 
 @export var crosshair_position_threshold: float = 75.0
 @export var crosshair_position_lerp_speed: float = 15.0
@@ -7,14 +8,24 @@ extends CanvasLayer
 @onready var player_health: HealthComponent = %HealthComponent
 
 @onready var health_label: Label = %HealthLabel
+@onready var wave_label: Label = %WaveLabel
+
 @onready var cannot_shoot_crosshair: Node2D = %CannotShootCrosshair
 @onready var static_crosshair: Node2D = %StaticCrosshair
 @onready var crosshair: Node2D = %RealCrosshair
 
 
+func _ready() -> void:
+	update_wave_label(0)
+
+
 func _process(delta: float) -> void:
 	if player_shooting: update_crosshairs(delta)
 	if player_health: update_health_label()
+
+
+func update_wave_label(current_wave: int) -> void:
+	wave_label.text = "Wave: %s" % current_wave
 
 
 func update_crosshairs(delta: float) -> void:
