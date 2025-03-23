@@ -13,6 +13,7 @@ class_name HUD
 @onready var cannot_shoot_crosshair: Node2D = %CannotShootCrosshair
 @onready var static_crosshair: Node2D = %StaticCrosshair
 @onready var crosshair: Node2D = %RealCrosshair
+@onready var crosshair_warning_status: TextureRect = %WarningStatus
 
 
 func _ready() -> void:
@@ -20,12 +21,18 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if player_shooting: update_crosshairs(delta)
+	if player_shooting: 
+		update_crosshairs(delta)
+		update_crosshair_statuses()
 	if player_health: update_health_label()
 
 
 func update_wave_label(current_wave: int) -> void:
 	wave_label.text = "Wave: %s" % current_wave
+
+
+func update_crosshair_statuses() -> void:
+	crosshair_warning_status.visible = player_shooting.global_view_hit_point.distance_to(player_shooting.global_fire_hit_point) > 0.75
 
 
 func update_crosshairs(delta: float) -> void:
@@ -53,7 +60,7 @@ func update_crosshairs(delta: float) -> void:
 	crosshair.global_position = crosshair.global_position.lerp(new_crosshair_position, crosshair_position_lerp_speed * delta)
 	
 	var crosshair_threshold_ratio: float = static_crosshair.global_position.distance_to(crosshair.global_position) / crosshair_position_threshold
-	var remapped_crosshair_ratio: float = remap(crosshair_threshold_ratio, 0, 1, -0.5, 1)
+	var remapped_crosshair_ratio: float = remap(crosshair_threshold_ratio, 0, 1, -0.25, 1)
 	crosshair.modulate.a = lerpf(0, 0.5, clampf(remapped_crosshair_ratio, 0, 1.0))
 	
 

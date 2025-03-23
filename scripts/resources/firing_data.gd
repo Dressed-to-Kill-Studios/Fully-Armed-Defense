@@ -8,8 +8,9 @@ enum FIRING_MODES {
 }
 
 @export var firing_mode: FIRING_MODES = FIRING_MODES.SEMI_AUTO
-@export var burst_amount: int = 3
-@export var bullets_per_min: int = 60
+@export_range(0, 10, 1, "or_greater") var burst_amount: int = 3
+@export_range(0.1, 5, 0.1, "or_greater") var burst_time_seconds: float = 0.5
+@export_range(0, 2400, 1, "or_greater") var bullets_per_min: float = 60
 
 @export_group("Bullet Settings")
 @export var bullet_damage_registry: DamageRegistry = DamageRegistry.new()

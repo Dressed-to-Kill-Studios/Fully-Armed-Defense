@@ -12,6 +12,8 @@ class_name ShootingComponent
 var cleared_to_shoot: bool = true
 
 var global_point_bullet_will_hit: Vector3
+var global_view_hit_point: Vector3
+var global_fire_hit_point: Vector3
 
 var burst_shots_remaining: int = 0
 
@@ -56,7 +58,7 @@ func _handle_burst() -> void:
 	burst_shots_remaining -= 1
 	_fire_bullet()
 	
-	burst_time = (60.0 / firing_data.bullets_per_min) / firing_data.burst_amount
+	burst_time = firing_data.burst_time_seconds / firing_data.burst_amount
 	
 
 
@@ -84,6 +86,10 @@ func _calculate_global_fire_position() -> void:
 	fire_cast.target_position = fire_target
 	global_point_bullet_will_hit = fire_cast.get_collision_point() if fire_cast.is_colliding() else view_hit_point
 	firing_point.look_at(global_point_bullet_will_hit)
+	
+	global_view_hit_point = view_hit_point
+	global_fire_hit_point = fire_cast.get_collision_point() if fire_cast.is_colliding() \
+		else fire_cast.to_global(fire_cast.target_position)
 
 
 func _check_clearance() -> void:
