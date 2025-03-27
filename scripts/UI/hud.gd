@@ -4,12 +4,17 @@ class_name HUD
 @export var crosshair_position_threshold: float = 75.0
 @export var crosshair_position_lerp_speed: float = 15.0
 
+var wave_manager: WaveManagerComponent
+
+#Components
 @onready var player_shooting: ShootingComponent = %PlayerShooting
 @onready var player_health: HealthComponent = %HealthComponent
 
+#Labels
 @onready var health_label: Label = %HealthLabel
 @onready var wave_label: Label = %WaveLabel
 
+#Crosshairs
 @onready var cannot_shoot_crosshair: Node2D = %CannotShootCrosshair
 @onready var static_crosshair: Node2D = %StaticCrosshair
 @onready var crosshair: Node2D = %RealCrosshair
@@ -17,18 +22,31 @@ class_name HUD
 
 
 func _ready() -> void:
-	update_wave_label(0)
+	pass
 
 
 func _process(delta: float) -> void:
 	if player_shooting: 
 		update_crosshairs(delta)
 		update_crosshair_statuses()
-	if player_health: update_health_label()
+	if player_health: 
+		update_health_label()
+	if wave_manager: 
+		update_wave_label()
 
 
-func update_wave_label(current_wave: int) -> void:
-	wave_label.text = "Wave: %s" % current_wave
+func update_wave_label() -> void:
+	if wave_manager.in_intermission:
+		var time_left: float = wave_manager.intermission_timer.time_left
+		if time_left >= 60:
+			var minutes: int = int(time_left) / 60
+			var seconds: int = int(time_left) % 60
+			wave_label.text = "Next wave in %d:%02d" % [minutes, seconds]
+		else:
+			wave_label.text = "Next wave in %.2f" % time_left
+		return
+	
+	wave_label.text = "Wave: %s" % wave_manager.current_wave
 
 
 func update_crosshair_statuses() -> void:

@@ -318,7 +318,7 @@ layout_mode = 2
 [node name="WaveLabel" type="Label" parent="HUD/MarginContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "INTERMISSION"
+text = "WAVE:"
 label_settings = SubResource("LabelSettings_ss567")
 uppercase = true
 
