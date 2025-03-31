@@ -8,11 +8,13 @@ var wave_manager: WaveManagerComponent
 
 #Components
 @onready var player_shooting: ShootingComponent = %PlayerShooting
+@onready var player_money: MoneyComponent = %PlayerMoney
 @onready var player_health: HealthComponent = %HealthComponent
 
 #Labels
-@onready var health_label: Label = %HealthLabel
 @onready var wave_label: Label = %WaveLabel
+@onready var money_label: Label = %MoneyLabel
+@onready var health_label: Label = %HealthLabel
 
 #Crosshairs
 @onready var cannot_shoot_crosshair: Node2D = %CannotShootCrosshair
@@ -29,10 +31,22 @@ func _process(delta: float) -> void:
 	if player_shooting: 
 		update_crosshairs(delta)
 		update_crosshair_statuses()
+	
+	if player_money:
+		update_money_label()
+	
 	if player_health: 
 		update_health_label()
+	
 	if wave_manager: 
 		update_wave_label()
+
+
+func update_money_label() -> void:
+	var money_text: String = NumberUtilities.format(player_money.current_money)
+	if player_money.current_money >= 1e6: money_text = NumberUtilities.compact_format(player_money.current_money)
+	
+	money_label.text = "Money: $%s" % money_text
 
 
 func update_wave_label() -> void:

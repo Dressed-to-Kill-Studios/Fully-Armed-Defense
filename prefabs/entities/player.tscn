@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cb8kits00qan1"]
+[gd_scene load_steps=17 format=3 uid="uid://cb8kits00qan1"]
 
 [ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player/player.gd" id="1_0on4b"]
 [ext_resource type="Script" uid="uid://dcrpjhd8rbjup" path="res://scripts/entities/player/player_movement.gd" id="2_n42l2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://b2rvurkpa5mgv" path="res://scripts/components/entity_components/health_component.gd" id="5_qpvj0"]
 [ext_resource type="PackedScene" uid="uid://brebj0ntkodrh" path="res://prefabs/bullets/test_bullet.tscn" id="5_ss567"]
 [ext_resource type="Script" uid="uid://e4jy7to2rje3" path="res://scripts/UI/hud.gd" id="7_2tsmg"]
+[ext_resource type="Script" uid="uid://cwlqb07qlrcg8" path="res://scripts/components/money_component.gd" id="7_sq3nx"]
 [ext_resource type="Texture2D" uid="uid://c0nlcn8ovxs7j" path="res://assets/images/warning_icon.png" id="10_o5qwm"]
 
 [sub_resource type="Resource" id="Resource_ss567"]
@@ -38,13 +39,14 @@ font_size = 30
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "movement", "shooting", "hud", "health") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "movement", "shooting", "money", "hud", "health") groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_0on4b")
 camera = NodePath("PlayerCameraController")
 movement = NodePath("PlayerMovement")
 shooting = NodePath("PlayerShooting")
+money = NodePath("PlayerMoney")
 hud = NodePath("HUD")
 health = NodePath("HealthComponent")
 
@@ -62,6 +64,11 @@ firing_point = NodePath("../Head/FirePoint")
 view_cast = NodePath("../Head/ViewCast")
 fire_cast = NodePath("../Head/FireCast")
 clearance_origin = NodePath("../Head")
+
+[node name="PlayerMoney" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_sq3nx")
+metadata/_custom_type_script = "uid://cwlqb07qlrcg8"
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -318,7 +325,7 @@ layout_mode = 2
 [node name="WaveLabel" type="Label" parent="HUD/MarginContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "WAVE:"
+text = "WAVE INCOMING"
 label_settings = SubResource("LabelSettings_ss567")
 uppercase = true
 
@@ -326,6 +333,14 @@ uppercase = true
 layout_mode = 2
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0)
+
+[node name="MoneyLabel" type="Label" parent="HUD/MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Money:"
+label_settings = SubResource("LabelSettings_qpvj0")
+vertical_alignment = 2
+uppercase = true
 
 [node name="HealthLabel" type="Label" parent="HUD/MarginContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true

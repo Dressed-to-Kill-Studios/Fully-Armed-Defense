@@ -35,7 +35,7 @@ static func format(number: float, separator: String = ",") -> String:
 		if count % 3 == 0 and count != integer_part.length():
 			separated_number = separator + separated_number
 	
-	return separated_number + decimal_part
+	return separated_number + decimal_part.pad_decimals(2)
 
 
 static func compact_format(value: float, digits: int = 3, abbreviate: bool = true) -> String:
@@ -58,6 +58,9 @@ static func compact_format(value: float, digits: int = 3, abbreviate: bool = tru
 	
 	# Return formatted string or "0"
 	if value != 0:
-		return format_string % [digits, sign(value) * (abs_value / notation.value), notation.symbol if abbreviate else notation.suffix]
+		return format_string % [
+			digits, 
+			sign(value) * (abs_value / notation.value), 
+			notation.symbol if abbreviate else notation.suffix]
 	else:
 		return "0"
