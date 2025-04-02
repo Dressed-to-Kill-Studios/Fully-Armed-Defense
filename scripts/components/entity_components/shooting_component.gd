@@ -9,6 +9,8 @@ class_name ShootingComponent
 @export var clearance_origin: Node3D
 @export var view_hit_point_threshold: float = 1.0
 
+@export var temperture: TemperatureComponent
+
 var cleared_to_shoot: bool = true
 
 var global_point_bullet_will_hit: Vector3
@@ -35,6 +37,7 @@ func _physics_process(delta: float) -> void:
 
 func shoot() -> void:
 	if not can_shoot: return
+	if temperture and temperture.is_overheated: return
 	if not cleared_to_shoot: return
 	if not firing_data:
 		printerr("No firing data assigned. - %s" % get_parent())
@@ -74,6 +77,8 @@ func _fire_bullet() -> void:
 	
 	firing_point.add_child(bullet_instance)
 	bullet_instance.top_level = true
+	
+	if temperture: temperture.increase_heat(firing_data.heat_per_shot)
 
 
 func _calculate_global_fire_position() -> void:

@@ -17,7 +17,7 @@ static var metric: bool = true
 static func temperature(metric_value: float, decimals: bool = false) -> String:
 	metric_value = (metric_value * 9 / 5) + 32 if not metric else metric_value
 	metric_value = int(floor(metric_value)) if not decimals else metric_value
-	return "%sº%s" % [metric_value, "C" if metric else "F"]
+	return "%dº%s" % [metric_value, "C" if metric else "F"]
 
 
 static func format(number: float, separator: String = ",") -> String:

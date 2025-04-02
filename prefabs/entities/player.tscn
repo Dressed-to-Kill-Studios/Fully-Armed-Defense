@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cb8kits00qan1"]
+[gd_scene load_steps=18 format=3 uid="uid://cb8kits00qan1"]
 
 [ext_resource type="Script" uid="uid://25nr7wvduvi5" path="res://scripts/entities/player/player.gd" id="1_0on4b"]
 [ext_resource type="Script" uid="uid://dcrpjhd8rbjup" path="res://scripts/entities/player/player_movement.gd" id="2_n42l2"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://brebj0ntkodrh" path="res://prefabs/bullets/test_bullet.tscn" id="5_ss567"]
 [ext_resource type="Script" uid="uid://e4jy7to2rje3" path="res://scripts/UI/hud.gd" id="7_2tsmg"]
 [ext_resource type="Script" uid="uid://cwlqb07qlrcg8" path="res://scripts/components/money_component.gd" id="7_sq3nx"]
+[ext_resource type="Script" uid="uid://dsd3qdpl5tmni" path="res://scripts/components/temperature_component.gd" id="8_34bpc"]
 [ext_resource type="Texture2D" uid="uid://c0nlcn8ovxs7j" path="res://assets/images/warning_icon.png" id="10_o5qwm"]
 
 [sub_resource type="Resource" id="Resource_ss567"]
@@ -18,6 +19,7 @@ firing_mode = 2
 burst_amount = 3
 burst_time_seconds = 0.5
 bullets_per_min = 240.0
+heat_per_shot = 100.0
 bullet_speed = 1.0
 bullet_pierces = 0
 bullet_ricochets = 0
@@ -56,7 +58,7 @@ script = ExtResource("3_ebhuq")
 [node name="PlayerMovement" type="Node" parent="."]
 script = ExtResource("2_n42l2")
 
-[node name="PlayerShooting" type="Node" parent="." node_paths=PackedStringArray("firing_point", "view_cast", "fire_cast", "clearance_origin")]
+[node name="PlayerShooting" type="Node" parent="." node_paths=PackedStringArray("firing_point", "view_cast", "fire_cast", "clearance_origin", "temperture")]
 unique_name_in_owner = true
 script = ExtResource("4_j0cl5")
 firing_data = SubResource("Resource_ss567")
@@ -64,11 +66,16 @@ firing_point = NodePath("../Head/FirePoint")
 view_cast = NodePath("../Head/ViewCast")
 fire_cast = NodePath("../Head/FireCast")
 clearance_origin = NodePath("../Head")
+temperture = NodePath("../TemperatureComponent")
 
 [node name="PlayerMoney" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("7_sq3nx")
 metadata/_custom_type_script = "uid://cwlqb07qlrcg8"
+
+[node name="TemperatureComponent" type="Node" parent="."]
+script = ExtResource("8_34bpc")
+metadata/_custom_type_script = "uid://dsd3qdpl5tmni"
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
