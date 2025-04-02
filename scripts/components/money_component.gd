@@ -5,7 +5,7 @@ signal money_changed(changed_amount: float, new_current_amount: float)
 signal money_added(amount_added: float, new_current_amount: float)
 signal money_removed(amount_removed: float, new_current_amount: float)
 
-var current_money: float = 0 : set = _set_money
+@export var current_money: float = 0 : set = _set_money
 
 
 func add_money(amount: float) -> void:

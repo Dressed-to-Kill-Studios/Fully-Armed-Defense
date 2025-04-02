@@ -18,11 +18,11 @@ var overheat_timer: Timer
 
 func _ready() -> void:
 	_create_overheat_timer()
+	current_temperature = base_temperature
 
 
 func _process(delta: float) -> void:
 	cool_down(delta)
-	print(NumberUtilities.temperature(current_temperature))
 
 
 func increase_heat(amount: float) -> void:

@@ -15,12 +15,12 @@ static var metric: bool = true
 
 
 static func temperature(metric_value: float, decimals: bool = false) -> String:
-	metric_value = (metric_value * 9 / 5) + 32 if not metric else metric_value
-	metric_value = int(floor(metric_value)) if not decimals else metric_value
-	return "%dº%s" % [metric_value, "C" if metric else "F"]
+	var new_value: float = (metric_value * 9 / 5) + 32 if not metric else metric_value
+	
+	return "%sº%s" % [format(metric_value, decimals), "C" if metric else "F"]
 
 
-static func format(number: float, separator: String = ",") -> String:
+static func format(number: float, decimals: bool = false, separator: String = ",") -> String:
 	var str_number: String = str(number)
 	var parts: PackedStringArray = str_number.split(".")
 	var integer_part: String = parts[0]
@@ -35,7 +35,7 @@ static func format(number: float, separator: String = ",") -> String:
 		if count % 3 == 0 and count != integer_part.length():
 			separated_number = separator + separated_number
 	
-	return separated_number + decimal_part.pad_decimals(2)
+	return separated_number + decimal_part if decimals else separated_number
 
 
 static func compact_format(value: float, digits: int = 3, abbreviate: bool = true) -> String:

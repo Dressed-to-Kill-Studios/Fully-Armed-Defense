@@ -9,18 +9,21 @@ var wave_manager: WaveManagerComponent
 #Components
 @onready var player_shooting: ShootingComponent = %PlayerShooting
 @onready var player_money: MoneyComponent = %PlayerMoney
+@onready var player_temperature: TemperatureComponent = %TemperatureComponent
 @onready var player_health: HealthComponent = %HealthComponent
 
 #Labels
 @onready var wave_label: Label = %WaveLabel
 @onready var money_label: Label = %MoneyLabel
 @onready var health_label: Label = %HealthLabel
+@onready var temperature_label: Label = %TemperatureLabel
 
 #Crosshairs
 @onready var cannot_shoot_crosshair: Node2D = %CannotShootCrosshair
 @onready var static_crosshair: Node2D = %StaticCrosshair
 @onready var crosshair: Node2D = %RealCrosshair
 @onready var crosshair_warning_status: TextureRect = %WarningStatus
+@onready var crosshair_overheat_status: TextureProgressBar = %OverheatStatus
 
 
 func _ready() -> void:
@@ -35,6 +38,9 @@ func _process(delta: float) -> void:
 	if player_money:
 		update_money_label()
 	
+	if player_temperature:
+		update_temperature_label()
+	
 	if player_health: 
 		update_health_label()
 	
@@ -42,11 +48,21 @@ func _process(delta: float) -> void:
 		update_wave_label()
 
 
+func update_temperature_label() -> void:
+	#Text
+	temperature_label.text = NumberUtilities.temperature(ceilf(player_temperature.current_temperature))
+	
+	# Color
+	var temp_ratio: float = (player_temperature.current_temperature - player_temperature.base_temperature) / (player_temperature.max_temperature - player_temperature.base_temperature)
+	temp_ratio = clamp(temp_ratio, 0, 1)
+	temperature_label.self_modulate = Color.WHITE.lerp(Color.RED, temp_ratio)
+
+
 func update_money_label() -> void:
-	var money_text: String = NumberUtilities.format(player_money.current_money)
+	var money_text: String = NumberUtilities.format(player_money.current_money, true).pad_decimals(2)
 	if player_money.current_money >= 1e6: money_text = NumberUtilities.compact_format(player_money.current_money)
 	
-	money_label.text = "Money: $%s" % money_text
+	money_label.text = "MONEY: $%s" % money_text
 
 
 func update_wave_label() -> void:
@@ -60,11 +76,17 @@ func update_wave_label() -> void:
 			wave_label.text = "Next wave in %.2f" % time_left
 		return
 	
-	wave_label.text = "Wave: %s" % wave_manager.current_wave
+	wave_label.text = "Wave: %s" % NumberUtilities.format(wave_manager.current_wave)
 
 
 func update_crosshair_statuses() -> void:
+	#Overheated
+	crosshair_overheat_status.visible = player_temperature.is_overheated
+	crosshair_overheat_status.value = player_temperature.overheat_timer.time_left / player_temperature.overheat_timer.wait_time
+	
+	#Shooting not clear
 	crosshair_warning_status.visible = player_shooting.global_view_hit_point.distance_to(player_shooting.global_fire_hit_point) > 0.75
+	
 
 
 func update_crosshairs(delta: float) -> void:

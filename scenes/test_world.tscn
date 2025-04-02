@@ -59,6 +59,7 @@ wave_component = NodePath("WaveManager")
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("2_dvny0")
+intermission_time_seconds = 90.0
 metadata/_custom_type_script = "uid://fum52rj1t805"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
