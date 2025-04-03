@@ -21,10 +21,12 @@ burst_amount = 3
 burst_time_seconds = 0.5
 bullets_per_min = 300.0
 heat_per_shot = 100.0
+bullet_damage = 10.0
+bullet_knockback = 0.0
 bullet_speed = 50.0
 bullet_pierces = 0
 bullet_ricochets = 0
-bullet_min_ricochet_angle = 45
+bullet_min_ricochet_angle = 45.0
 bullet_scene = ExtResource("5_ss567")
 metadata/_custom_type_script = "uid://b588p414ss0kn"
 

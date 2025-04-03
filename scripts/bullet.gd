@@ -67,7 +67,6 @@ func _handle_entity_hit(hit_entity: Entity) -> void:
 	if hit_entity.health.is_dead(): return
 	
 	if damage_registry: hit_entity.damage(damage_registry)
-	printt("hit entity", damage_registry)
 	
 	#Piercing
 	if pierces_left <= 0: destroy()

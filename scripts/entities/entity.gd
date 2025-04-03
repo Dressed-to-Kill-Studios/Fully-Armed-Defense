@@ -5,7 +5,7 @@ class_name Entity
 
 
 func _ready() -> void:
-	pass
+	health.health_depleted.connect(kill)
 
 
 func damage(damage_registry: DamageRegistry) -> void:
@@ -14,5 +14,6 @@ func damage(damage_registry: DamageRegistry) -> void:
 	health.damage(damage_registry)
 
 
-func kill() -> void:
+func kill(damage_registry: DamageRegistry) -> void:
+	printt("%s was killed" % self)
 	queue_free()

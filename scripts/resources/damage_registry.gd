@@ -1,6 +1,14 @@
 extends Resource
 class_name DamageRegistry
 
-@export var inflictor: NodePath = ""
-@export var damage_amount: float = 0
-@export var knockback_amount: float = 0
+enum DAMAGE_TYPE {
+	MELEE,
+	BULLET,
+	EXPLOSION,
+}
+
+var inflictor: Node
+var damage_type: DAMAGE_TYPE
+var damage_amount: float = 0
+var is_critical: bool = false
+var knockback_amount: float = 0
